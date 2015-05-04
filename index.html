@@ -68,7 +68,7 @@
 <h2>Visualizing Hourly NYC Cab Ridership & Weather </h2> 
  Triangle = federal holiday or weekends, Circle = all others (ie working days). Hover over any data point to view date and time.<br />
  
-	<div id="workdammit"></div>
+	<div id="viz"></div>
 	
 	<div id="filter">
     <b>Show data for:</b>
@@ -104,7 +104,7 @@
 		};
 		
 	//Append svg graph
-		var svg = d3.select("#workdammit")
+		var svg = d3.select("#viz")
 				.append("svg")
 				.attr("width", w+left_pad)
 				.attr("height", h+top_pad);		
@@ -125,13 +125,8 @@
 
 		var parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
 		var getHour = d3.time.format("%H");
-	
-		console.log("scale");
-		console.log(x(12));
-		
-		
+
 	//Scatterplot points
-			
 		svg.selectAll("path")
 		    .data(dataSet)
 		    .enter().append("path")
@@ -162,8 +157,6 @@
 					.style("opacity", 0);   
 			})
 			
-			
-			
 			//code below assigns color based on the colors we had earlier
 			.style("fill", function(d,i){
 				if(d.rainSnowStatus === "0"){return "rgba(50,50,50,.1)"} else{
@@ -173,43 +166,30 @@
 						else
 							return "orange";
 					}else{
-
-					
 					if(d.rainSnowStatus=== "2"){return "navy";} else {return "lightblue"}
-					
-					
-//						return rainColors(d.hourlyPrecip);
 					}
 				}
 			});		
 					
 		svg.selectAll(".loading").remove(); //remove loading text after data has loaded
 			
-			
 		//filter the dots
 		d3.selectAll("[name=v]").on("change", function() {
 			var selected = this.value;
 			display = this.checked ? "inline" : "none";
-
 
 		svg.selectAll(".dot")
 			.filter(function(d) {return selected == d.holWkend;})
 			.attr("display", display);
 			});	
 		
-//		
 		var div = d3.select("body").append("div")   
 			.attr("class", "tooltip")               
 			.style("opacity", 0);	
 
-
-			
-
-		});		//ANYTHING INVOLVING DATA HAS TO BE BEFORE THESE BRACKETS	
-	
+		});		
 	
 	//Axes
-		
 		var xAxis = d3.svg.axis().scale(x).orient("bottom")
 					.tickFormat(function(d) {
 						var f = ["12.51AM", "1.51AM", "2.51AM", "3.51AM", "4.51AM", "5.51AM", "6.51AM", "7.51AM", "8.51AM", "9.51AM", "10.51AM", "11.51AM", "12.51PM", "1.51PM", "2.51PM", "3.51PM", "4.51PM", "5.51PM", "6.51PM", "7.51PM", "8.51PM", "9.51PM", "10.51PM", "11.51PM"];
@@ -227,25 +207,12 @@
 			.attr("transform", "translate("+(left_pad)+", 0)")
 			.call(yAxis);
 		
-	
-		console.log(dataSet, "dataSet outside");	
-			
-
-
-		//var hour = getHour(parseTime(dataset[2].datetime));  returns only hour from standard datetime
-		
-		
-		
-		
-		//Test slideshow
-		
 		svg.append("text")
 			.attr("class", "content")
 			.text("KEY:")
 			.attr("fill","black")
 			.attr("x", function () { return w * 9/10; })
 			.attr("y", function () { return 40; })	
-		
 		
 		svg.append("text")
 			.attr("class", "content")
@@ -274,10 +241,6 @@
 			.attr("fill","lightblue")
 			.attr("x", function () { return w * 9/10; })
 			.attr("y", function () { return 120; })
-		
-	
-           
-
 
 	</script>
 
