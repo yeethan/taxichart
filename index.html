@@ -10,6 +10,10 @@
 			stroke: #aaa;
 			shape-rendering: crispEdges;
 		}
+		
+		body {
+  		font-family: "Segoe UI",Helvetica, sans-serif;
+		} 
 		 
 		.axis text {
 			font-family: sans-serif;
@@ -66,7 +70,7 @@
 	<div id="workdammit"></div>
 	
 	<div id="filter">
-    <b>Factor Filter:</b>
+    <b>Show data for:</b>
         <br>
     <input name='v' value="0" type="checkbox" checked>Weekday
     </input>
@@ -236,7 +240,7 @@
 		
 		svg.append("text")
 			.attr("class", "content")
-			.text("KEY")
+			.text("KEY:")
 			.attr("fill","black")
 			.attr("x", function () { return w * 9/10; })
 			.attr("y", function () { return 40; })	
