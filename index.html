@@ -139,7 +139,7 @@
 		    .enter().append("path")
 		    .attr("class", "dot")
 			//xy doesn't work on paths so translate() is needed to shift the positions
-            .attr("transform", function(d) { return "translate(" + (x(getHour(parseTime(d.datetime))) + (Math.random() * 16 - 8)) + "," +  y(d.occupancy) + ")"; })
+            .attr("transform", function(d) { return "translate(" + (x(getHour(parseTime(d.datetime))) + (Math.random() * 18 -9)) + "," +  y(d.occupancy) + ")"; })
 			//code below assigns shape using the symbolTypes defined earlier
 			.attr("d", function(d,i){
 				if (d.holWkend === "0")
