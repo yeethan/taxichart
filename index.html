@@ -5,7 +5,8 @@
     <title>NYC Taxi Occupancy - A Visualization</title>
     <style>
 		@import url('http://fonts.googleapis.com/css?family=Open+Sans');
-	
+		
+
 		.axis path,
 		.axis line {
 			fill: none;
@@ -17,7 +18,7 @@
   		font-family: "Segoe UI", "Open Sans", Calibri, sans-serif;
   		font-size: 12px;
 		background-color:#f9f9f9;
-		color:#222a2e;
+		color:#023737;
 		} 
 		 
 		.axis text {
@@ -41,8 +42,9 @@
 			}
 			
 		#filter {
-			position: absolute;
+			position: absolute;overflow: visible; width: 1200px;
 		}
+		
 			
 		div.tooltip {   
 			position: absolute;           
@@ -59,6 +61,73 @@
 			border-radius: 8px;           
 			pointer-events: none;         
 		}		
+		
+		.fh-switch {
+		  position: relative; 
+		  }
+
+		.fh-switch > [type="checkbox"]:checked,
+		.fh-switch > [type="checkbox"]:not(:checked) {
+		  width: 0;
+		  height: 0;
+		  display: none;
+		  opacity: 0; }
+		  .fh-switch > [type="checkbox"]:checked + label,
+		  .fh-switch > [type="checkbox"]:not(:checked) + label {
+			cursor: pointer;
+			display: inline-block;
+			margin-right: 6px;
+			margin-top: 6px;
+			margin-bottom: 6px;
+			padding-right: 50px; }
+			.fh-switch > [type="checkbox"]:checked + label:after,
+			.fh-switch > [type="checkbox"]:not(:checked) + label:after {
+			  content: "";
+			  top: 4px;
+			  right: 10px;
+			  width: 30px;
+			  height: 12px;
+			  position: absolute;
+			  border-radius: 28px; }
+			.fh-switch > [type="checkbox"]:checked + label + .fh-switch-knob,
+			.fh-switch > [type="checkbox"]:not(:checked) + label + .fh-switch-knob {
+			  top: 0;
+			  width: 20px;
+			  height: 20px;
+			  border-radius: 28px;
+			  display: inline-block;
+			  position: absolute;
+			  cursor: pointer;
+			  pointer-events: none;
+			  box-shadow: 1px 1px 1px #dddddd;
+			  -webkit-transition: right .1s ease-in, background-color .1s ease-in;
+			  -moz-transition: right .1s ease-in, background-color .1s ease-in;
+			  -o-transition: right .1s ease-in, background-color .1s ease-in;
+			  -ms-transition: right .1s ease-in, background-color .1s ease-in; }
+		  .fh-switch > [type="checkbox"]:checked:focus + label:after, .fh-switch > [type="checkbox"]:checked:focus + label + .fh-switch-knob,
+		  .fh-switch > [type="checkbox"]:not(:checked):focus + label:after,
+		  .fh-switch > [type="checkbox"]:not(:checked):focus + label + .fh-switch-knob {
+			box-shadow: 0 0 6px 0 #00cdcd; }
+		  .fh-switch > [type="checkbox"]:checked[disabled] + label, .fh-switch > [type="checkbox"]:checked[disabled] + label:after, .fh-switch > [type="checkbox"]:checked[disabled] + label + .fh-switch-knob,
+		  .fh-switch > [type="checkbox"]:not(:checked)[disabled] + label,
+		  .fh-switch > [type="checkbox"]:not(:checked)[disabled] + label:after,
+		  .fh-switch > [type="checkbox"]:not(:checked)[disabled] + label + .fh-switch-knob {
+			cursor: not-allowed;
+			opacity: 0.4; }
+
+		.fh-switch > [type="checkbox"]:checked + label:after {
+		  background-color: #b2dfdb; }
+
+		.fh-switch > [type="checkbox"]:not(:checked) + label:after {
+		  background-color: #f7f7f7; } /*was dddddd*/
+
+		.fh-switch > [type="checkbox"]:checked + label + .fh-switch-knob {
+		  right: 5px;
+		  background-color: #008b96; }
+
+		.fh-switch > [type="checkbox"]:not(:checked) + label + .fh-switch-knob {
+		  right: 25px;
+		  background-color:  #78909c; } 
 
 	</style>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -68,41 +137,68 @@
  
 <h2>Visualizing Hourly NYC Cab Ridership & Weather </h2> 
  Part of a project examining average hourly NYC taxi occupancy over time, and how weather affects taxi occupancy.<br />
- Filter by weather condition and by weekday/weekend below. 
+ Legend on the right, filter for weather condition and weekday/weekend below. 
  Hover over any data point to view date (yyyy-mm-dd).<br />
  
-	<div id="workdammit"></div>
+	
 	
 	<div id="filter">
-    <b>Show data for:</b>
-        <br>
-    <input name='v' value="0" type="checkbox" checked>Weekday
-    </input>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="v" value="1" type="checkbox" checked >Weekend/Federal Holiday
-    </input>
+    <br />
+		
+	<span style="padding-left:60px">&nbsp;</span>
 	
-//condition	
-	 <br>
-    <input name='w' value="1" type="checkbox" checked>Light Rain
-    </input>
+	<span class="fh-switch" style="padding-left:20px">
+	   <input type="checkbox" id="wkday" name="v" value="0" checked>
+	   <label for="wkday">Weekday</label>
+	   <span class="fh-switch-knob"></span>
+	</span>	
+		
+	
+	
         &nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="w" value="2" type="checkbox" checked >Rain
-    </input>
+	
+	<span class="fh-switch" style="padding-left:20px">
+	   <input type="checkbox" id="wkendhol" name="v" value="1" checked>
+	   <label for="wkendhol">Weekend/Federal Holiday</label>
+	   <span class="fh-switch-knob"></span>
+	</span>	
+	
+	 <span style="padding-left:125px">&nbsp;</span>
+	 
+	<span class="fh-switch" style="padding-left:20px">
+	   <input type="checkbox" id="lrain" name="w" value="1" checked>
+	   <label for="lrain">Light Rain</label>
+	   <span class="fh-switch-knob"></span>
+	</span>	
+	 
+        &nbsp;&nbsp;&nbsp;&nbsp;
+	<span class="fh-switch" style="padding-left:35px">
+	   <input type="checkbox" id="hrain" name="w" value="2" checked>
+	   <label for="hrain">Rain</label>
+	   <span class="fh-switch-knob"></span>
+	</span>	
 	        &nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="w" value="3" type="checkbox" checked >Light Snow
-    </input>
+	<span class="fh-switch" style="padding-left:10px">
+	   <input type="checkbox" id="lsnow" name="w" value="3" checked>
+	   <label for="lsnow">Light Snow</label>
+	   <span class="fh-switch-knob"></span>
+	</span>	
 	        &nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="w" value="4" type="checkbox" checked >Snow
-    </input>
+	<span class="fh-switch" style="padding-left:35px">
+	   <input type="checkbox" id="snow" name="w" value="4" checked>
+	   <label for="snow">Snow</label>
+	   <span class="fh-switch-knob"></span>
+	</span>	
 	</div>
+	
+	<div id="viz"></div>
 
 	<script type="text/javascript">
 
 	//Global vars. No need if use translate() later?
 		var w = 1350,
-			h = 600,
-			top_pad = 20,
+			h = 580,
+			top_pad = 50,
 			left_pad = 50,
 			right_pad=100;
 			
@@ -112,7 +208,7 @@
 				.range([left_pad, w - left_pad - right_pad]),
 			y = d3.scale.linear() 
 				.domain([0, 9000])
-				.range([h - top_pad, top_pad]);
+				.range([h, top_pad]);
 	
 	//Define symbols to be used later
 		var symbolTypes = {
@@ -121,7 +217,7 @@
 		};
 		
 	//Append svg graph
-		var svg = d3.select("#workdammit")
+		var svg = d3.select("#viz")
 				.append("svg")
 				.attr("width", w+left_pad)
 				.attr("height", h+top_pad);		
@@ -142,13 +238,9 @@
 
 		var parseTime = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
 		var getHour = d3.time.format("%H");
-	
-		console.log("scale");
-		console.log(x(12));
 		
 		
 	//Scatterplot points
-			
 		svg.selectAll("path")
 		    .data(dataSet)
 		    .enter().append("path")
@@ -163,6 +255,7 @@
 					return symbolTypes.triangleDown();
 			})
 			
+			//tooltip
 			.on("mouseover", function(d) {      
 				div.transition()        
 					.duration(200)      
@@ -182,9 +275,9 @@
 				if(d.rainSnowStatus === "0"){return "rgba(50,50,50,.1)"} else{
 					if (d.rainSnowStatus > "2"){
 						if (d.rainSnowStatus === "4")
-							return "#d71731";  //heavy snow
+							return "#b30000";  //heavy snow  #d71731 lighter red
 						else
-							return "#f99226";  //light snow
+							return "#ff7a00";  //light snow #f99226 lighter orange
 					}else{				
 					if(d.rainSnowStatus=== "2"){return "#13519E"; //heavy rain
 					} else {return "#1ad3ff"} //light rain
@@ -199,12 +292,13 @@
 		//filter weekend/holidays vs weekday
 		d3.selectAll("[name=v]").on("change", function() {
 			var selected = this.value;
-			display = this.checked ? "inline" : "none";
+			opacity = this.checked ? 1 : 0;
 
 
 		svg.selectAll(".dot")
 			.filter(function(d) {return selected == d.holWkend;})
-			.attr("display", display);
+			.style("opacity", opacity);
+			//.attr("display", display);
 			});	
 			
 		//filter the weather
@@ -235,29 +329,42 @@
 		
 		svg.append("g")
 			.attr("class", "axis")
-			.attr("transform", "translate(0, "+(h-top_pad)+")")
+			.attr("transform", "translate(0, "+h+")")
 			.call(xAxis);
  
 		svg.append("g")
 			.attr("class", "axis")
 			.attr("transform", "translate("+(left_pad)+", 0)")
 			.call(yAxis);
-		
-//background for key	
+			
+		//background for filters	
 		svg.append("rect")
-			.attr("x", function () { return w * 9/10 - 5; })
-			.attr("y", 35)
-			.attr("width", 120)
-			.attr("height", 200)
-			.attr("fill","#eaeaea");
+			.attr("x", left_pad+20)
+			.attr("y", 10)
+			.attr("rx",10)
+			.attr("ry",10)
+			.attr("width", 1060)
+			.attr("height", 40)
+			.attr("fill","#e1e5e9");
+			
+		
+		//background for legend	
+		svg.append("rect")
+			.attr("x", function () { return w * 9/10 - 10; })
+			.attr("y", 110)
+			.attr("rx",10)
+			.attr("ry",10)
+			.attr("width", 130)
+			.attr("height", 180)
+			.attr("fill","#e1e5e9");
 			
 		
 		svg.append("text")
 			.attr("class", "content")
 			.style("font-size","13px")
-			.text("KEY:")
-			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 50; })	
+			.text("LEGEND")
+			.attr("x", function () { return w * 9/10 + 20; })
+			.attr("y", function () { return 100; })	
 		
 		
 		svg.append("text")
@@ -265,56 +372,56 @@
 			.text("Snow")
 			.attr("fill","#d71731")
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 80; })
+			.attr("y", function () { return 130; })
 
 		svg.append("text")
 			.attr("class", "content")
 			.text("Light snow")
 			.attr("fill","#f99226")    //colors should match line 186ish
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 100; })
+			.attr("y", function () { return 150; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("Rain")
 			.attr("fill","#13519E")
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 120; })
+			.attr("y", function () { return 170; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("Light rain")
-			.attr("fill","#1ad3ff")
+			.attr("fill","#00c3f1")
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 140; })
+			.attr("y", function () { return 190; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("Triangle: weekend/")
 			.attr("fill","#034a4a")
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 170; })
+			.attr("y", function () { return 220; })
 			
 		svg.append("text")
 			.attr("class", "content")
 			.text("federal holiday")
 			.attr("fill","#034a4a")
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 185; })
+			.attr("y", function () { return 235; })
 
 		svg.append("text")
 			.attr("class", "content")
 			.text("Circle: non-holiday")
 			.attr("fill","#034a4a")
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 210; })
+			.attr("y", function () { return 260; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("weekday")
 			.attr("fill","#034a4a")
 			.attr("x", function () { return w * 9/10; })
-			.attr("y", function () { return 225; })		
+			.attr("y", function () { return 275; })		
 		
 
 	</script>
