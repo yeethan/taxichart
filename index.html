@@ -55,8 +55,8 @@
 			padding: 2px;             
 			font-size: 12px;
 			font-weight: bold;
-			font-family: "Segoe UI",Helvetica, sans-serif;       
-			background: #cedb9c;   
+			font-family: "Segoe UI", Calibri, sans-serif;      
+			background: #b2dfdb;   
 			border: 0px;      
 			border-radius: 8px;           
 			pointer-events: none;         
@@ -100,10 +100,7 @@
 			  cursor: pointer;
 			  pointer-events: none;
 			  box-shadow: 1px 1px 1px #dddddd;
-			  -webkit-transition: right .1s ease-in, background-color .1s ease-in;
-			  -moz-transition: right .1s ease-in, background-color .1s ease-in;
-			  -o-transition: right .1s ease-in, background-color .1s ease-in;
-			  -ms-transition: right .1s ease-in, background-color .1s ease-in; }
+			   }
 		  .fh-switch > [type="checkbox"]:checked:focus + label:after, .fh-switch > [type="checkbox"]:checked:focus + label + .fh-switch-knob,
 		  .fh-switch > [type="checkbox"]:not(:checked):focus + label:after,
 		  .fh-switch > [type="checkbox"]:not(:checked):focus + label + .fh-switch-knob {
@@ -256,13 +253,15 @@
 			})
 			
 			//tooltip
-			.on("mouseover", function(d) {      
-				div.transition()        
-					.duration(200)      
-					.style("opacity", .9);      
-				div .html(d.datetime.substring(0,10) )  
-					.style("left", (d3.event.pageX + 5) + "px")     
-					.style("top", (d3.event.pageY - 24) + "px");    
+			.on("mouseover", function(d) {
+				if(d3.select(this).style("opacity") != 0){
+					div.transition()        
+						.duration(200)      
+						.style("opacity", .8);      
+					div .html(d.datetime.substring(0,10) )  
+						.style("left", (d3.event.pageX + 5) + "px")     
+						.style("top", (d3.event.pageY - 24) + "px");    
+					}
 				})                  
 			.on("mouseout", function(d) {       
 				div.transition()        
