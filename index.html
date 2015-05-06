@@ -32,7 +32,7 @@
 		}
 		 
 		.content {
-			font-family: helvetica;
+			font-family: "Segoe UI", "Open Sans", Calibri, sans-serif;
 			font-size: 12p;
 			font-weight: bold;
 		}
@@ -100,6 +100,8 @@
 			  cursor: pointer;
 			  pointer-events: none;
 			  box-shadow: 1px 1px 1px #dddddd;
+			  /* CSS3-animation for chrome. lags on firefox, doesnt show up on safari */
+            -webkit-transition: right .1s ease-in, background-color .1s ease-in;
 			   }
 		  .fh-switch > [type="checkbox"]:checked:focus + label:after, .fh-switch > [type="checkbox"]:checked:focus + label + .fh-switch-knob,
 		  .fh-switch > [type="checkbox"]:not(:checked):focus + label:after,
@@ -148,19 +150,15 @@
 	   <input type="checkbox" id="wkday" name="v" value="0" checked>
 	   <label for="wkday">Weekday</label>
 	   <span class="fh-switch-knob"></span>
-	</span>	
-		
-	
-	
-        &nbsp;&nbsp;&nbsp;&nbsp;
-	
+	</span>			
+        &nbsp;	
 	<span class="fh-switch" style="padding-left:20px">
 	   <input type="checkbox" id="wkendhol" name="v" value="1" checked>
 	   <label for="wkendhol">Weekend/Federal Holiday</label>
 	   <span class="fh-switch-knob"></span>
 	</span>	
 	
-	 <span style="padding-left:125px">&nbsp;</span>
+	 <span style="padding-left:105px">&nbsp;</span>
 	 
 	<span class="fh-switch" style="padding-left:20px">
 	   <input type="checkbox" id="lrain" name="w" value="1" checked>
@@ -189,11 +187,20 @@
 	</div>
 	
 	<div id="viz"></div>
+	
+	
+	<div id="content">created by Ethan Yee. data obtained from NYC TLC and processed with R 
+		and the data.table package, viz made with d3.js
+	</div>
+	
+	<div id="content">Note: requires a modern browser to render properly. 
+	</div>
+	
 
 	<script type="text/javascript">
 
 	//Global vars. No need if use translate() later?
-		var w = 1350,
+		var w = 1280,
 			h = 580,
 			top_pad = 50,
 			left_pad = 50,
@@ -329,16 +336,16 @@
 		//background for filters	
 		svg.append("rect")
 			.attr("x", left_pad+20)
-			.attr("y", 10)
+			.attr("y", 13)
 			.attr("rx",10)
 			.attr("ry",10)
-			.attr("width", 1085)
-			.attr("height", 40)
+			.attr("width", 1060)
+			.attr("height", 36)
 			.attr("fill","#e1e5e9");
 				
 		//background for legend	
 		svg.append("rect")
-			.attr("x", function () { return w * .92 - 10; })
+			.attr("x", function () { return w * .91 - 10; })
 			.attr("y", 110)
 			.attr("rx",10)
 			.attr("ry",10)
@@ -350,64 +357,64 @@
 			.attr("class", "content")
 			.style("font-size","13px")
 			.text("LEGEND")
-			.attr("x", function () { return w * .92 + 20; })
+			.attr("x", function () { return w * .91 + 20; })
 			.attr("y", function () { return 100; })			
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("Heavy Snow")
 			.attr("fill","#d71731")
-			.attr("x", function () { return w * .92; })
+			.attr("x", function () { return w * .91; })
 			.attr("y", function () { return 130; })
 
 		svg.append("text")
 			.attr("class", "content")
 			.text("Light snow")
 			.attr("fill","#f99226")    //colors should match line 186ish
-			.attr("x", function () { return w * .92; })
+			.attr("x", function () { return w * .91; })
 			.attr("y", function () { return 150; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("Heavy Rain")
 			.attr("fill","#13519E")
-			.attr("x", function () { return w * .92; })
+			.attr("x", function () { return w * .91; })
 			.attr("y", function () { return 170; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("Light rain")
 			.attr("fill","#00c3f1")
-			.attr("x", function () { return w * .92; })
+			.attr("x", function () { return w * .91; })
 			.attr("y", function () { return 190; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("Triangle: weekend/")
 			.attr("fill","#034a4a")
-			.attr("x", function () { return w * .92; })
+			.attr("x", function () { return w * .91; })
 			.attr("y", function () { return 220; })
 			
 		svg.append("text")
 			.attr("class", "content")
 			.text("federal holiday")
 			.attr("fill","#034a4a")
-			.attr("x", function () { return w * .92; })
+			.attr("x", function () { return w * .91; })
 			.attr("y", function () { return 235; })
 
 		svg.append("text")
 			.attr("class", "content")
 			.text("Circle: non-holiday")
 			.attr("fill","#034a4a")
-			.attr("x", function () { return w * .92; })
+			.attr("x", function () { return w * .91; })
 			.attr("y", function () { return 260; })
 		
 		svg.append("text")
 			.attr("class", "content")
 			.text("weekday")
 			.attr("fill","#034a4a")
-			.attr("x", function () { return w * .92; })
-			.attr("y", function () { return 275; })		
+			.attr("x", function () { return w * .91; })
+			.attr("y", function () { return 275; })			
 		
 	</script>
 
